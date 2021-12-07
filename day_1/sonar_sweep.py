@@ -1,14 +1,18 @@
 __author__ = "Tim Quan"
 
-# reading input file
-import os
-dir_path = os.path.dirname(os.path.realpath(__file__))
-input_file = open(f'{dir_path}\input.txt')
-depth_readings = [int(i) for i in input_file.readlines()]
+# set up puzzle from aocd
+# https://pypi.org/project/advent-of-code-data/
+from aocd.models import Puzzle
+puzzle = Puzzle(year=2021, day=1)
 
+# parsing input
+depth_readings = [int(i) for i in puzzle.input_data.split('\n')]
 
+# part 1:---------------------------------------
 cnt = 0
-for i in range(depth_readings.__len__()):
+for i in range(0, depth_readings.__len__()):
     cnt += (depth_readings[i] > depth_readings[i-1])
 
 print(f'Counted {cnt} depth increases.')
+
+# part 2:---------------------------------------
