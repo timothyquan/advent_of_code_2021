@@ -1,6 +1,5 @@
 __author__ = "Tim Quan"
 
-
 # set up puzzle from aocd
 # https://pypi.org/project/advent-of-code-data/
 from aocd.models import Puzzle
@@ -27,8 +26,8 @@ print(f'Counted {count_increases(dr)} depth increases.')
 # part 2:---------------------------------------
 window_size = 3
 
-# make sure we dont count any trailing incomplete windows - round down to the the highest number divisible by 3
-last_iter = window_size * int(len(dr) / window_size)
+# make sure we dont count any trailing incomplete windows
+last_iter = len(dr) - window_size + 1
 
 # make make a list of list chunked into [window_size]
 windowed_drs = [dr[i:(i+window_size)]
