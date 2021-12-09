@@ -4,13 +4,6 @@ from aocd.models import Puzzle
 puzzle = Puzzle(year=2021, day=2)
 
 input = [i for i in puzzle.input_data.split('\n')]
-# input = ['forward 5',
-#          'down 5',
-#          'forward 8',
-#          'up 3',
-#          'down 8',
-#          'forward 2']
-
 
 # part 1: ---------------------------------------------------------
 input_map = {'forward': 0,
