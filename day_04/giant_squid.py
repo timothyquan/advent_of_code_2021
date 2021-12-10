@@ -37,17 +37,6 @@ class Bingo_Board:
         return sum
 
 
-def input_reader(input_string):
-    input_list = input_string.split('\n\n')
-    call_order = input_list[0].split(',')
-    boards = []
-    for i in input_list[1:]:
-        board = pd.DataFrame(np.reshape(i.split(), (5, 5)))
-        boards.append(board)
-
-    return call_order, boards
-
-
 class Bingo_Game:
     def __init__(self, input_string):
         input_list = input_string.split('\n\n')
