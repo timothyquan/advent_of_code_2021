@@ -1,6 +1,4 @@
 import pandas as pd
-import pprint as pp
-
 from aocd.models import Puzzle
 
 
@@ -63,8 +61,6 @@ oxygen_gen_rating = binarylist_to_decimal(
     rating(df, 1).values.tolist()[0])
 co2_scrubber_rating = binarylist_to_decimal(
     rating(df, 0).values.tolist()[0])
-
-
 print(
     f'The oxygen generator rating is {oxygen_gen_rating}, the co2 scrubber rating is {co2_scrubber_rating}.')
 print(
