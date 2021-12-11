@@ -21,6 +21,7 @@ class Bingo_Board:
                 self.df_marks.at[found.index[0], col] = False
                 self.srs_lines[col] += 1
                 self.srs_lines[found.index[0]+5] += 1
+        return (len(found) > 0)
 
     def bingo_check(self):
         return len(self.srs_lines[self.srs_lines > 4]) > 0
@@ -38,7 +39,7 @@ class Bingo_Board:
 
 
 class Bingo_Game:
-    def __init__(self, input_string):
+    def __init__(self, input_string, play_through=False):
         input_list = input_string.split('\n\n')
         call_order = input_list[0].split(',')
         boards = []
@@ -48,50 +49,48 @@ class Bingo_Game:
 
         self.bbs = [Bingo_Board(b) for b in boards]
         self.call_order = call_order
+        self.play_through = play_through
 
-    def sequential_result(self):
-        bingod = False
-        last_call = 0
-        winner = ''
-        for c in self.call_order:
-            for b in self.bbs:
-                b.call(c)
-                if b.bingo_check():
-                    bingod = True
-                    winner = b
-                    last_call = int(c)
-                    break
-            if bingod:
-                break
-        return winner, last_call
+    def call_all_boards(self, num):
+        poplist = []
+        for idx, b in enumerate(self.bbs):
+            b.call(num)
+            if b.bingo_check():
+                if not self.play_through:
+                    return b
+                else:
+                    if len(self.bbs) > 1:
+                        poplist.append(idx)
+                    else:
+                        return b
+        for i in sorted(poplist, reverse=True):
+            self.bbs.pop(i)
+        return False
+
+    def make_calls(self):
+        call = self.call_order[0]
+        winner = self.call_all_boards(call)
+        self.call_order.pop(0)
+        if winner:
+            return call, winner
+        if len(self.call_order) > 0:
+            return self.make_calls()
+        return False
+
+    def play_game(self, iter=0):
+        last_call, winner = self.make_calls()
+        print(
+            f"The last number called was {last_call}, here's the winning board:")
+        winner.print_board()
+        print(
+            f'The final score was {int(last_call) * int(winner.unmarked_sum())}.')
 
 
 if __name__ == "__main__":
     input = Puzzle(2021, 4).input_data
-#     input = "\
-# 7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1\n\
-# \n\
-# 22 13 17 11  0\n\
-#  8  2 23  4 24\n\
-# 21  9 14 16  7\n\
-#  6 10  3 18  5\n\
-#  1 12 20 15 19\n\
-# \n\
-#  3 15  0  2 22\n\
-#  9 18 13 17  5\n\
-# 19  8  7 25 23\n\
-# 20 11 10 24  4\n\
-# 14 21 16 12  6\n\
-# \n\
-# 14 21 17 24  4\n\
-# 10 16 15  9 19\n\
-# 18  8 23 26 20\n\
-# 22 11 13  6  5\n\
-#  2  0 12  3  7"
 
     first_game = Bingo_Game(input)
-    winner, last_call = first_game.sequential_result()
-    print(f"Here's the winner, the last call was {last_call}:")
-    winner.print_board()
-    print(
-        f'The final score was {int(last_call) * int(winner.unmarked_sum())}.')
+    first_game.play_game()
+
+    last_game = Bingo_Game(input, play_through=True)
+    last_game.play_game()
