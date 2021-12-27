@@ -92,4 +92,3 @@ if __name__ == '__main__':
     print(f"These is the sizes of  the basins: {basin_sizes}")
     print(
         f"This is the 3 largest basins multiplied together: {basin_sizes[0] * basin_sizes[1] * basin_sizes[2]}")
-    # basin_counts =
