@@ -35,7 +35,6 @@ class Line:
 
         for c in reversed(self.chunks):
             score = (score * 5) + points[c]
-            print(c, points[c], end=',')
         return score
 
 
